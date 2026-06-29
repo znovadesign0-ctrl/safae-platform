@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منطقة الألعاب 🎮 Games Zone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           🎮 منطقة الألعاب المحدثة والذكية (ZNOVA Premium Scroll Architecture V2)
+           ========================================================================== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            overflow: hidden; 
+            padding: 20px;
+        }
+
+        .games-zone-fullscreen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 9999;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            box-sizing: border-box;
+            /* تم جعلها نشطة وتظهر مباشرة لأنها أصبحت صفحة مستقلة */
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            overflow: hidden; 
+            padding: 20px;
+        }
+
+        /* الخلفية المتدرجة للبلاتفورم */
+        .games-animated-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(-45deg, #FFB6C1, #87CEEB, #F06292, #4FC3F7);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            z-index: 1;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 🏛️ الإطار الأبيض الأساسي */
+        .games-main-frame {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 95%; 
+            max-width: 750px; 
+            max-height: 90vh;
+            padding: 40px; 
+            border-radius: 32px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-sizing: border-box;
+            overflow-y: auto; /* يسمح بالسكرول داخل الفريم بسلاسة للـ PC والموبايل */
+            transition: max-width 0.4s ease, max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        /* ✨ تخصيص السكرول بار الأنيق ليكون لداخل ونقي */
+        .games-main-frame::-webkit-scrollbar {
+            width: 12px;
+        }
+        .games-main-frame::-webkit-scrollbar-track {
+            background: transparent;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .games-main-frame::-webkit-scrollbar-thumb {
+            background: linear-gradient(#F06292, #FF80AB);
+            border-radius: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.94); /* يخليه يدخل لداخل ويبعد على الحافة */
+            background-clip: padding-box;
+        }
+
+        /* سهم الرجوع الرئيسي يعود لصفحة التحكم الكبيرة */
+        .games-back-btn {
+            position: absolute; top: 20px; right: 20px; /* تغييرها لليمين لتتوافق مع اتجاه الـ RTL */
+            background: none; border: none; font-size: 1.4rem;
+            color: #F06292; cursor: pointer; transition: transform 0.3s;
+            z-index: 100;
+        }
+        .games-back-btn:hover { transform: translateX(5px); }
+
+        .games-header { margin-bottom: 25px; padding-top: 10px; }
+
+        .games-main-title {
+            font-size: 1.8rem; font-weight: 800;
+            background: linear-gradient(to right, #F06292, #4FC3F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-family: 'Poppins', 'Cairo', sans-serif;
+        }
+        .games-sub-title { color: #555; font-size: 0.95rem; line-height: 1.6; font-weight: 500; direction: rtl; }
+
+        /* حاوية الكروت */
+        .games-cards-container { display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto; }
+
+        .game-item-card {
+            background: #fff; border-radius: 20px; padding: 12px 25px; 
+            display: flex; align-items: center; justify-content: space-between; gap: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.04); border: 1px solid rgba(240, 98, 146, 0.08);
+        }
+        .game-img-box { width: 70px; height: 70px; border-radius: 16px; overflow: hidden; flex-shrink: 0; }
+        .game-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .game-info-box { display: flex; align-items: center; justify-content: space-between; flex-grow: 1; }
+        .game-info-box h3 { margin: 0; font-size: 1.1rem; color: #333; font-weight: 700; font-family: 'Poppins', sans-serif; }
+
+        /* ==========================================================================
+           🎬 ALL GAMES BUTTONS: UNIFIED SIZE & CINEMATIC BLUE TRANSITION
+           ========================================================================== */
+        .game-open-btn {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 100% !important; /* لتوحيد العرض */
+            max-width: 130px;      
+            height: 40px !important;
+            text-decoration: none !important;
+            font-weight: 600;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #F06292, #FF80AB); 
+            color: white; 
+            border: none;
+            font-size: 0.85rem; 
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important; /* ترانزيشن سينمائي ناعم */
+        }
+
+        /* تأثير الـ Hover السحري للتحول للأزرق السماوي */
+        .game-open-btn:hover {
+            background: linear-gradient(135deg, #00d2ff, #0066ff) !important;
+            transform: scale(1.08) !important; 
+            box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4) !important; 
+            color: #fff !important;
+        }
+
+        .game-open-btn:active {
+            transform: scale(0.98) !important;
+            transition: all 0.1s ease !important;
+        }
+
+        /* ==========================================================================
+           📱 ميديا كويري الموبايل
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .games-zone-fullscreen { padding: 10px; }
+
+            .games-main-frame {
+                max-height: calc(100vh - 20px);
+                padding: 45px 15px 20px 15px;
+                border-radius: 24px;
+            }
+
+            .game-item-card { flex-direction: column; text-align: center; padding: 15px; gap: 10px; }
+            .game-info-box { flex-direction: column; gap: 10px; width: 100%; text-align: center; }
+            .game-open-btn { width: 100% !important; max-width: 100%; padding: 8px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="games-zone-fullscreen">
+    <div class="games-animated-bg"></div>
+
+    <div class="games-main-frame">
+        <button class="games-back-btn" onclick="if(window.parent && window.parent.closeGameszone){ window.parent.closeGameszone(); }else{ history.back(); }">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+        
+        <div class="games-header">
+            <h1 class="games-main-title">WELCOME TO GAMES ZONE 🎮</h1>
+            <p class="games-sub-title">هادو غير ألعاب تجريبية ممكن تجربيهم، الصراحة ما عرفتش شمن ألعاب كيعجبوك بالضبط نديرهم ليك هنا، ولكن نتمنى يعجبوك شوية هاد الألعاب لي قاديتهم ليك ❤️</p>
+        </div>
+
+        <div class="games-cards-container" id="gamesMenuContainer">
+            
+            <div class="game-item-card">
+                <div class="game-img-box">
+                    <img src="ChatGPT Image Jun 29, 2026, 04_48_36 AM.png" alt="Chess"> 
+                </div>
+                <div class="game-info-box">
+                    <h3>CHESS</h3>
+                    <a href="chess.html" class="game-open-btn">Open Now</a>
+                </div>
+            </div>
+
+            <div class="game-item-card">
+                <div class="game-img-box">
+                    <img src="ChatGPT Image Jun 28, 2026, 11_30_04 PM.png" alt="Memory Cards"> 
+                </div>
+                <div class="game-info-box">
+                    <h3>MEMORY CARDS</h3>
+                    <a href="memory cards.html" class="game-open-btn">Open Now</a>
+                </div>
+            </div>
+
+            <div class="game-item-card">
+                <div class="game-img-box">
+                    <img src="ChatGPT Image Jun 28, 2026, 11_32_51 PM.png" alt="Sudoku"> 
+                </div>
+                <div class="game-info-box">
+                    <h3>XO</h3>
+                    <a href="XO.html" class="game-open-btn">Open Now</a>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

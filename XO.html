@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>XO ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#f48fb1;--pink-d:#f06292;--pink-l:#fce4ec;
+  --blue:#90caf9;--blue-d:#64b5f6;--blue-l:#e3f2fd;
+  --text:#3a2a4a;--soft:#9e8fa8;--mid:#6a5a7a;
+  --glass:rgba(255,255,255,0.58);--glassb:rgba(255,255,255,0.9);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{height:100%;overflow:hidden;}
+body{
+  min-height:100%;width:100%;
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(145deg,#fce4ec 0%,#f3e8fb 35%,#e3f2fd 70%,#f0e8fc 100%);
+  background-attachment:fixed;
+  overflow:hidden;
+}
+
+/* ══ SCREENS ══ */
+.screen{
+  position:fixed;inset:0;
+  display:none;flex-direction:column;align-items:center;justify-content:flex-start;
+  overflow-y:auto;overflow-x:hidden;
+  padding:clamp(16px,3vh,28px) clamp(14px,4vw,24px) clamp(24px,4vh,40px);
+  /* Styled scrollbar */
+  scrollbar-width:thin;
+  scrollbar-color:rgba(244,143,177,0.45) rgba(255,255,255,0.25);
+}
+.screen::-webkit-scrollbar{width:5px;}
+.screen::-webkit-scrollbar-track{background:rgba(255,255,255,0.2);border-radius:50px;}
+.screen::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--pink),var(--blue));
+  border-radius:50px;
+}
+.screen::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--pink-d),var(--blue-d));}
+.screen.active{display:flex;}
+
+/* Scroll hint fade at bottom */
+.screen.active::after{
+  content:'';
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:48px;
+  background:linear-gradient(to top,rgba(248,220,232,0.7),transparent);
+  pointer-events:none;
+  opacity:1;
+  transition:opacity 0.3s;
+}
+.screen.active.scrolled-to-bottom::after{opacity:0;}
+
+/* ════ SPLASH ════ */
+#splashScreen{
+  gap:clamp(8px,1.8vh,18px);
+  justify-content:flex-start;
+  align-items:center;
+}
+
+.logo-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;}
+.logo-icon{
+  width:clamp(60px,12vw,82px);height:clamp(60px,12vw,82px);
+  border-radius:clamp(18px,3vw,26px);
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(1.8rem,5vw,2.6rem);
+  box-shadow:0 8px 28px rgba(244,143,177,0.42);
+}
+.logo-title{
+  font-size:clamp(2rem,6vw,2.8rem);font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--pink-d),var(--blue-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.logo-sub{font-size:clamp(0.72rem,2vw,0.88rem);color:var(--soft);}
+
+/* Level cards */
+.section-label{
+  font-size:clamp(0.62rem,1.6vw,0.75rem);font-weight:900;
+  color:var(--soft);letter-spacing:1.5px;
+  align-self:flex-start;width:100%;max-width:460px;
+}
+.lvl-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(8px,2vw,14px);width:100%;max-width:460px;flex-shrink:0;
+}
+.lvl-card{
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:2px solid rgba(255,255,255,0.85);border-radius:clamp(14px,2.5vw,22px);
+  padding:clamp(12px,2.5vh,20px) clamp(8px,2vw,14px);
+  text-align:center;cursor:pointer;transition:all 0.22s;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 16px rgba(244,143,177,0.1);
+}
+.lvl-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(244,143,177,0.24);}
+.lvl-card:active{transform:translateY(-1px);}
+.lvl-badge{
+  position:absolute;top:7px;left:7px;
+  font-size:clamp(0.52rem,1.2vw,0.62rem);font-weight:900;
+  padding:2px 7px;border-radius:50px;
+}
+.b-e{background:rgba(129,199,132,0.2);color:#2e7d32;}
+.b-m{background:rgba(255,183,77,0.2);color:#e65100;}
+.b-h{background:rgba(244,143,177,0.25);color:#ad1457;}
+.lvl-ico{font-size:clamp(1.6rem,4.5vw,2.4rem);display:block;margin-bottom:6px;}
+.lvl-name{font-size:clamp(0.8rem,2.2vw,1rem);font-weight:900;color:var(--text);margin-bottom:3px;}
+.lvl-info{font-size:clamp(0.58rem,1.4vw,0.7rem);color:var(--soft);line-height:1.5;}
+
+/* Side selector */
+.side-row{
+  display:flex;gap:clamp(8px,2vw,14px);width:100%;max-width:460px;flex-shrink:0;
+}
+.side-btn{
+  flex:1;padding:clamp(10px,2vh,14px);border-radius:clamp(14px,2.5vw,20px);
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:2px solid rgba(255,255,255,0.85);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  cursor:pointer;transition:all 0.2s;font-family:'Cairo',sans-serif;
+  font-size:clamp(0.82rem,2vw,0.95rem);font-weight:700;color:var(--mid);
+  box-shadow:0 3px 12px rgba(244,143,177,0.08);
+}
+.side-btn.active{
+  background:linear-gradient(135deg,rgba(244,143,177,0.18),rgba(144,202,249,0.18));
+  border-color:rgba(244,143,177,0.5);color:var(--text);
+  box-shadow:0 4px 18px rgba(244,143,177,0.22);
+}
+.side-ico{font-size:clamp(1.2rem,3vw,1.6rem);}
+
+.btn-start{
+  width:100%;max-width:460px;padding:clamp(12px,2.2vh,16px);
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  border:none;border-radius:50px;color:white;
+  font-family:'Cairo',sans-serif;font-size:clamp(0.88rem,2.2vw,1rem);font-weight:900;
+  cursor:pointer;transition:all 0.2s;
+  box-shadow:0 5px 20px rgba(244,143,177,0.42);flex-shrink:0;
+}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(244,143,177,0.55);}
+
+/* ════ GAME SCREEN ════ */
+#gameScreen{
+  justify-content:flex-start;
+  align-items:center;
+  gap:clamp(8px,1.5vh,16px);
+}
+
+/* Top bar */
+.top-bar{
+  width:100%;max-width:400px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  position:sticky;top:0;z-index:10;
+  background:linear-gradient(to bottom,rgba(248,228,236,0.85),transparent);
+  backdrop-filter:blur(8px);
+  padding-bottom:8px;margin-bottom:clamp(2px,0.5vh,6px);
+}
+.btn-back{
+  width:clamp(32px,6vw,40px);height:clamp(32px,6vw,40px);border-radius:50%;
+  background:var(--glass);backdrop-filter:blur(10px);
+  border:1.5px solid var(--glassb);display:flex;align-items:center;justify-content:center;
+  font-size:clamp(0.85rem,2vw,1rem);cursor:pointer;color:var(--mid);transition:all 0.2s;
+}
+.btn-back:hover{background:rgba(255,255,255,0.85);}
+.lv-tag{
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  border-radius:50px;padding:clamp(4px,0.7vh,6px) clamp(12px,2.5vw,18px);
+  font-size:clamp(0.7rem,1.8vw,0.82rem);font-weight:900;color:white;
+  box-shadow:0 3px 12px rgba(244,143,177,0.38);
+}
+
+/* Score cards */
+.score-row{
+  width:100%;max-width:400px;
+  display:flex;gap:clamp(8px,2vw,14px);flex-shrink:0;
+  margin-bottom:clamp(8px,1.5vh,16px);
+}
+.score-card{
+  flex:1;background:var(--glass);backdrop-filter:blur(12px);
+  border:1.5px solid var(--glassb);border-radius:clamp(14px,2.5vw,20px);
+  padding:clamp(8px,1.8vh,14px) 10px;text-align:center;
+  box-shadow:0 3px 12px rgba(244,143,177,0.1);
+  transition:all 0.3s;
+}
+.score-card.active-turn{
+  border-color:rgba(244,143,177,0.5);
+  box-shadow:0 4px 18px rgba(244,143,177,0.25);
+  background:rgba(255,255,255,0.72);
+}
+.sc-label{font-size:clamp(0.6rem,1.5vw,0.72rem);font-weight:700;color:var(--soft);margin-bottom:3px;}
+.sc-sym{font-size:clamp(1.4rem,4vw,2rem);font-weight:900;display:block;margin-bottom:2px;}
+.sc-sym.x-sym{
+  background:linear-gradient(135deg,var(--pink-d),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sc-sym.o-sym{
+  background:linear-gradient(135deg,var(--blue-d),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sc-val{
+  font-size:clamp(1.3rem,4vw,1.8rem);font-weight:900;
+  background:linear-gradient(135deg,var(--pink-d),var(--blue-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sc-name{font-size:clamp(0.6rem,1.5vw,0.72rem);color:var(--mid);font-weight:700;}
+
+/* Status */
+.status-bar{
+  width:100%;max-width:400px;
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1.5px solid var(--glassb);border-radius:50px;
+  padding:clamp(7px,1.2vh,11px) clamp(16px,4vw,24px);
+  text-align:center;font-size:clamp(0.78rem,2vw,0.92rem);font-weight:700;color:var(--mid);
+  box-shadow:0 3px 12px rgba(244,143,177,0.1);flex-shrink:0;
+  margin-bottom:clamp(10px,2vh,18px);
+  transition:all 0.3s;
+}
+.status-bar.thinking{border-color:rgba(144,202,249,0.45);color:var(--blue-d);}
+.status-bar.win-bar{
+  background:linear-gradient(135deg,rgba(244,143,177,0.18),rgba(144,202,249,0.18));
+  border-color:rgba(244,143,177,0.45);color:var(--pink-d);
+}
+
+/* ══ BOARD ══ */
+.board-wrap{
+  width:100%;max-width:400px;
+  aspect-ratio:1;
+  background:rgba(255,255,255,0.45);backdrop-filter:blur(16px);
+  border:2px solid rgba(255,255,255,0.92);border-radius:clamp(20px,4vw,32px);
+  padding:clamp(10px,2vw,18px);
+  box-shadow:0 10px 40px rgba(244,143,177,0.2),0 2px 10px rgba(144,202,249,0.12);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:clamp(10px,2vh,18px);
+}
+.board{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(6px,1.5vw,12px);width:100%;height:100%;
+}
+.cell{
+  background:rgba(255,255,255,0.75);
+  border:1.5px solid rgba(244,143,177,0.15);
+  border-radius:clamp(12px,2.5vw,20px);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.18s;
+  box-shadow:0 2px 8px rgba(244,143,177,0.08);
+  position:relative;overflow:hidden;
+}
+.cell:hover:not(.taken){
+  background:rgba(255,255,255,0.92);
+  border-color:rgba(244,143,177,0.35);
+  transform:scale(1.03);
+  box-shadow:0 4px 16px rgba(244,143,177,0.18);
+}
+.cell.taken{cursor:default;}
+.cell.win-cell{
+  background:linear-gradient(135deg,rgba(244,143,177,0.22),rgba(144,202,249,0.22))!important;
+  border-color:rgba(244,143,177,0.5)!important;
+  animation:winPulse 0.6s ease;
+}
+@keyframes winPulse{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+.cell-inner{
+  font-size:clamp(2rem,10vw,4rem);font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;
+  animation:popIn 0.25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.x-mark{
+  background:linear-gradient(135deg,var(--pink-d),var(--pink));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 2px 4px rgba(244,143,177,0.4));
+}
+.o-mark{
+  background:linear-gradient(135deg,var(--blue-d),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 2px 4px rgba(144,202,249,0.4));
+}
+
+/* ══ BOTTOM ACTIONS ══ */
+.bottom-row{
+  width:100%;max-width:400px;
+  display:flex;gap:clamp(8px,2vw,14px);flex-shrink:0;
+}
+.act-btn{
+  flex:1;padding:clamp(10px,1.8vh,14px);border-radius:50px;
+  border:1.5px solid rgba(255,255,255,0.88);
+  background:var(--glass);backdrop-filter:blur(10px);
+  font-family:'Cairo',sans-serif;font-size:clamp(0.75rem,2vw,0.88rem);font-weight:700;
+  color:var(--mid);cursor:pointer;transition:all 0.2s;
+  box-shadow:0 2px 10px rgba(244,143,177,0.08);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.act-btn:hover{background:rgba(255,255,255,0.85);transform:translateY(-1px);}
+.act-btn.primary{
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  border-color:transparent;color:white;
+  box-shadow:0 4px 16px rgba(244,143,177,0.35);
+}
+.act-btn.primary:hover{box-shadow:0 6px 22px rgba(244,143,177,0.5);}
+
+/* ══ RESULT MODAL ══ */
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  background:rgba(252,228,236,0.65);backdrop-filter:blur(18px);
+  align-items:center;justify-content:center;z-index:200;padding:20px;
+}
+.modal-bg.show{display:flex;}
+.modal-card{
+  background:rgba(255,255,255,0.94);
+  border:2px solid rgba(255,255,255,0.97);border-radius:clamp(22px,4vw,32px);
+  padding:clamp(28px,5vh,44px) clamp(24px,5vw,40px);
+  text-align:center;width:100%;max-width:340px;
+  box-shadow:0 18px 55px rgba(244,143,177,0.28);
+  animation:mpop 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes mpop{from{transform:scale(0.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+.m-big{font-size:clamp(3rem,10vw,4.5rem);display:block;margin-bottom:10px;}
+.m-title{
+  font-size:clamp(1.4rem,4.5vw,2rem);font-weight:900;
+  background:linear-gradient(135deg,var(--pink-d),var(--blue-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:8px;
+}
+.m-pts{
+  font-size:clamp(1.6rem,5vw,2.4rem);font-weight:900;
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.m-sub{color:var(--soft);font-size:clamp(0.75rem,2vw,0.88rem);line-height:1.7;margin-bottom:20px;}
+.m-streak{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,rgba(244,143,177,0.12),rgba(144,202,249,0.12));
+  border:1px solid rgba(244,143,177,0.25);border-radius:50px;
+  padding:6px 16px;font-size:clamp(0.72rem,1.8vw,0.85rem);
+  font-weight:700;color:var(--mid);margin-bottom:20px;
+}
+.btn-g{
+  width:100%;padding:clamp(11px,2vh,15px);border-radius:50px;border:none;
+  background:linear-gradient(135deg,var(--pink),var(--blue));
+  color:white;font-family:'Cairo',sans-serif;
+  font-size:clamp(0.85rem,2.2vw,0.98rem);font-weight:900;
+  cursor:pointer;box-shadow:0 4px 18px rgba(244,143,177,0.38);
+  transition:all 0.2s;margin-bottom:9px;
+}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 7px 24px rgba(244,143,177,0.52);}
+.btn-s{
+  width:100%;padding:clamp(9px,1.6vh,13px);border-radius:50px;
+  border:1.5px solid rgba(255,255,255,0.88);background:rgba(255,255,255,0.62);
+  color:var(--mid);font-family:'Cairo',sans-serif;
+  font-size:clamp(0.8rem,2vw,0.92rem);font-weight:700;cursor:pointer;transition:all 0.2s;
+}
+.btn-s:hover{background:rgba(255,255,255,0.88);}
+
+/* AI thinking dots */
+.think-dots{display:inline-flex;gap:5px;margin-right:6px;}
+.think-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--blue);animation:tdot 0.8s infinite;
+}
+.think-dot:nth-child(2){animation-delay:0.15s;}
+.think-dot:nth-child(3){animation-delay:0.3s;}
+@keyframes tdot{0%,100%{transform:translateY(0);opacity:0.5}50%{transform:translateY(-4px);opacity:1}}
+
+/* Confetti */
+.conf-w{position:fixed;inset:0;pointer-events:none;z-index:150;overflow:hidden;}
+.cp{position:absolute;font-size:1.4rem;animation:cfll linear forwards;}
+@keyframes cfll{0%{transform:translateY(-50px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+
+/* Scoreboard mini */
+.mini-scores{
+  width:100%;max-width:400px;
+  display:flex;justify-content:center;gap:clamp(16px,4vw,28px);
+  flex-shrink:0;margin-bottom:clamp(8px,1.5vh,14px);
+}
+.mini-s{
+  display:flex;align-items:center;gap:6px;
+  font-size:clamp(0.7rem,1.8vw,0.82rem);font-weight:700;color:var(--mid);
+}
+.mini-s b{
+  font-size:clamp(0.85rem,2.2vw,1rem);
+  background:linear-gradient(135deg,var(--pink-d),var(--blue-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+</style>
+</head>
+<body>
+
+<!-- ════ SPLASH ════ -->
+<div id="splashScreen" class="screen active">
+
+  <div class="logo-wrap">
+    <div class="logo-icon">✕⭕</div>
+    <div class="logo-title">XO</div>
+    <div class="logo-sub">العب ضد الذكاء الاصطناعي بثلاثة مستويات</div>
+  </div>
+
+  <div class="section-label">🎯 اختر المستوى</div>
+  <div class="lvl-grid">
+    <div class="lvl-card" onclick="setLevel('easy',this)">
+      <div class="lvl-badge b-e">سهل</div>
+      <span class="lvl-ico">🌸</span>
+      <div class="lvl-name">سهل</div>
+      <div class="lvl-info">AI يلعب عشوائياً<br>+5 نقاط للفوز</div>
+    </div>
+    <div class="lvl-card" onclick="setLevel('medium',this)">
+      <div class="lvl-badge b-m">متوسط</div>
+      <span class="lvl-ico">🌟</span>
+      <div class="lvl-name">متوسط</div>
+      <div class="lvl-info">AI يفكر تكتيكياً<br>+10 نقاط للفوز</div>
+    </div>
+    <div class="lvl-card" onclick="setLevel('hard',this)">
+      <div class="lvl-badge b-h">صعب</div>
+      <span class="lvl-ico">💎</span>
+      <div class="lvl-name">صعب</div>
+      <div class="lvl-info">AI لا يُهزم (Minimax)<br>+20 نقاط للفوز</div>
+    </div>
+  </div>
+
+  <div class="section-label">⭐ اختر رمزك</div>
+  <div class="side-row">
+    <div class="side-btn active" id="sideX" onclick="setSide('X')">
+      <span class="side-ico">✕</span>
+      <span>أنا X (أبدأ أول)</span>
+    </div>
+    <div class="side-btn" id="sideO" onclick="setSide('O')">
+      <span class="side-ico">⭕</span>
+      <span>أنا O (الـ AI يبدأ)</span>
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startGame()">🚀 ابدأ اللعبة</button>
+</div>
+
+<!-- ════ GAME ════ -->
+<div id="gameScreen" class="screen">
+
+  <div class="top-bar">
+    <button class="btn-back" onclick="goHome()">←</button>
+    <div class="lv-tag" id="lvTag">🌸 سهل</div>
+    <div style="display:flex;gap:6px;">
+      <div class="mini-s">🏆 متتالية: <b id="streakVal">0</b></div>
+    </div>
+  </div>
+
+  <div class="score-row">
+    <div class="score-card" id="cardPlayer">
+      <div class="sc-label">أنتِ</div>
+      <span class="sc-sym" id="playerSym">✕</span>
+      <div class="sc-val" id="playerScore">0</div>
+      <div class="sc-name">انتصارات</div>
+    </div>
+    <div class="score-card" style="background:rgba(255,255,255,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+      <div style="font-size:clamp(0.6rem,1.5vw,0.7rem);color:var(--soft);font-weight:700;">الجولة</div>
+      <div style="font-size:clamp(1.2rem,4vw,1.8rem);font-weight:900;background:linear-gradient(135deg,var(--pink),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="roundNum">1</div>
+      <div style="font-size:clamp(0.6rem,1.5vw,0.7rem);color:var(--soft);font-weight:700;">تعادل: <span id="drawScore">0</span></div>
+    </div>
+    <div class="score-card" id="cardAI">
+      <div class="sc-label">AI</div>
+      <span class="sc-sym" id="aiSym">⭕</span>
+      <div class="sc-val" id="aiScore">0</div>
+      <div class="sc-name">انتصارات</div>
+    </div>
+  </div>
+
+  <div class="status-bar" id="statusBar">دورك! 🎯</div>
+
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+  </div>
+
+  <div class="bottom-row">
+    <button class="act-btn" onclick="goHome()">🏠 القائمة</button>
+    <button class="act-btn primary" onclick="resetRound()">🔄 جولة جديدة</button>
+  </div>
+
+</div>
+
+<!-- RESULT MODAL -->
+<div class="modal-bg" id="resultModal">
+  <div class="modal-card">
+    <span class="m-big" id="rEmoji">🎉</span>
+    <div class="m-title" id="rTitle"></div>
+    <div class="m-pts" id="rPts"></div>
+    <div class="m-streak" id="rStreak"></div>
+    <div class="m-sub" id="rSub"></div>
+    <button class="btn-g" onclick="closeResult();resetRound()">🔄 جولة أخرى</button>
+    <button class="btn-s" onclick="closeResult();goHome()">🏠 القائمة الرئيسية</button>
+  </div>
+</div>
+
+<div class="conf-w" id="confW"></div>
+
+<script>
+// ══ STATE ══
+let level='easy', playerMark='X', aiMark='O';
+let board=Array(9).fill(null), currentTurn='X', gameOver=false;
+let playerWins=0, aiWins=0, draws=0, totalScore=0, streak=0, round=1;
+let aiThinking=false;
+
+const LV={
+  easy:  {name:'🌸 سهل',   pts:5,  label:'سهل'},
+  medium:{name:'🌟 متوسط', pts:10, label:'متوسط'},
+  hard:  {name:'💎 صعب',   pts:20, label:'صعب'},
+};
+
+// ══ SPLASH CONTROLS ══
+function setLevel(lvl, el){
+  level=lvl;
+  document.querySelectorAll('.lvl-card').forEach(c=>c.style.border='2px solid rgba(255,255,255,0.85)');
+  el.style.border='2px solid rgba(244,143,177,0.55)';
+  el.style.background='rgba(244,143,177,0.08)';
+}
+function setSide(s){
+  playerMark=s; aiMark=s==='X'?'O':'X';
+  document.getElementById('sideX').classList.toggle('active',s==='X');
+  document.getElementById('sideO').classList.toggle('active',s==='O');
+}
+
+function startGame(){
+  playerWins=0;aiWins=0;draws=0;totalScore=0;streak=0;round=1;
+  showScreen('gameScreen');
+  document.getElementById('lvTag').textContent=LV[level].name;
+  document.getElementById('playerSym').textContent=playerMark==='X'?'✕':'⭕';
+  document.getElementById('playerSym').className='sc-sym '+(playerMark==='X'?'x-sym':'o-sym');
+  document.getElementById('aiSym').textContent=aiMark==='X'?'✕':'⭕';
+  document.getElementById('aiSym').className='sc-sym '+(aiMark==='X'?'x-sym':'o-sym');
+  resetRound();
+}
+
+// ══ ROUND ══
+function resetRound(){
+  board=Array(9).fill(null);
+  currentTurn='X';
+  gameOver=false;aiThinking=false;
+  document.getElementById('roundNum').textContent=round;
+  closeResult();
+  renderBoard();
+  updateScoreCards();
+
+  // If AI goes first
+  if(currentTurn===aiMark){ setTimeout(doAI,500); }
+  setStatus(currentTurn===playerMark?'دورك! 🎯':'AI يفكر...',currentTurn===playerMark?'':'thinking');
+}
+
+// ══ RENDER BOARD ══
+function renderBoard(){
+  const g=document.getElementById('board'); g.innerHTML='';
+  board.forEach((val,i)=>{
+    const cell=document.createElement('div');
+    cell.className='cell'+(val?' taken':'');
+    cell.dataset.i=i;
+    if(val){
+      const inner=document.createElement('div');
+      inner.className='cell-inner';
+      const span=document.createElement('span');
+      span.className=val==='X'?'x-mark':'o-mark';
+      span.textContent=val==='X'?'✕':'⭕';
+      inner.appendChild(span);cell.appendChild(inner);
+    }
+    cell.addEventListener('click',()=>playerMove(i));
+    g.appendChild(cell);
+  });
+}
+
+// ══ PLAYER MOVE ══
+function playerMove(i){
+  if(gameOver||aiThinking||board[i]||currentTurn!==playerMark) return;
+  board[i]=playerMark;
+  renderBoard();
+  const res=checkResult();
+  if(!res){ currentTurn=aiMark; setStatus('AI يفكر...','thinking'); setTimeout(doAI,420); }
+}
+
+// ══ AI ══
+function doAI(){
+  if(gameOver) return;
+  aiThinking=true;
+  let idx;
+  if(level==='easy') idx=aiEasy();
+  else if(level==='medium') idx=aiMedium();
+  else idx=aiBest(board,aiMark).index;
+  board[idx]=aiMark;
+  aiThinking=false;
+  renderBoard();
+  const res=checkResult();
+  if(!res){ currentTurn=playerMark; setStatus('دورك! 🎯'); }
+}
+
+function aiEasy(){
+  const empty=board.map((v,i)=>v?null:i).filter(i=>i!=null);
+  return empty[Math.floor(Math.random()*empty.length)];
+}
+
+function aiMedium(){
+  // Win if can
+  for(let i=0;i<9;i++){if(!board[i]){board[i]=aiMark;if(winner(board)===aiMark){board[i]=null;return i;}board[i]=null;}}
+  // Block player win
+  for(let i=0;i<9;i++){if(!board[i]){board[i]=playerMark;if(winner(board)===playerMark){board[i]=null;return i;}board[i]=null;}}
+  // Center
+  if(!board[4]) return 4;
+  // Random
+  return aiEasy();
+}
+
+function aiBest(bd, mark){
+  const empty=bd.map((v,i)=>v?null:i).filter(i=>i!=null);
+  const w=winner(bd);
+  if(w===aiMark) return{score:10};
+  if(w===playerMark) return{score:-10};
+  if(!empty.length) return{score:0};
+  const moves=[];
+  for(const i of empty){
+    bd[i]=mark;
+    const res=aiBest(bd, mark===aiMark?playerMark:aiMark);
+    bd[i]=null;
+    moves.push({index:i,score:res.score});
+  }
+  if(mark===aiMark) return moves.reduce((a,b)=>b.score>a.score?b:a);
+  return moves.reduce((a,b)=>b.score<a.score?b:a);
+}
+
+// ══ WIN CHECK ══
+const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function winner(bd){
+  for(const[a,b,c] of LINES) if(bd[a]&&bd[a]===bd[b]&&bd[a]===bd[c]) return bd[a];
+  return null;
+}
+function winLine(bd){
+  for(const line of LINES){
+    const[a,b,c]=line;if(bd[a]&&bd[a]===bd[b]&&bd[a]===bd[c]) return line;
+  }
+  return null;
+}
+
+function checkResult(){
+  const w=winner(board);
+  const isDraw=!w&&board.every(Boolean);
+  if(w||isDraw){
+    gameOver=true;
+    const line=winLine(board);
+    if(line) line.forEach(i=>{
+      const cells=document.getElementById('board').children;
+      if(cells[i]) cells[i].classList.add('win-cell');
+    });
+    setTimeout(()=>showResult(w,isDraw),500);
+    return true;
+  }
+  return false;
+}
+
+// ══ RESULT ══
+function showResult(w,isDraw){
+  round++;
+  if(isDraw){
+    draws++;
+    setStatus('تعادل! 🤝','');
+    document.getElementById('rEmoji').textContent='🤝';
+    document.getElementById('rTitle').textContent='تعادل!';
+    document.getElementById('rPts').textContent='+0 نقاط';
+    document.getElementById('rSub').textContent='لم يفز أحد هذه المرة!';
+    streak=0;
+  } else if(w===playerMark){
+    playerWins++;streak++;
+    const pts=LV[level].pts*(streak>=3?2:1);
+    totalScore+=pts;
+    setStatus('فزتِ! 🎉','win-bar');
+    document.getElementById('rEmoji').textContent=streak>=3?'👑':'🎉';
+    document.getElementById('rTitle').textContent=streak>=3?`سلسلة ${streak} انتصارات! 🔥`:'فزتِ! 🎉';
+    document.getElementById('rPts').textContent=`+${pts} نقطة`;
+    document.getElementById('rSub').textContent=streak>=3?`مكافأة x2 بسبب السلسلة! إجمالي: ${totalScore} نقطة`:`إجمالي النقاط: ${totalScore}`;
+    confetti();
+  } else {
+    aiWins++;streak=0;
+    setStatus('فاز الـ AI 🤖','');
+    document.getElementById('rEmoji').textContent='😔';
+    document.getElementById('rTitle').textContent='فاز الـ AI هذه المرة!';
+    document.getElementById('rPts').textContent='+0 نقاط';
+    document.getElementById('rSub').textContent=`حاولي مجدداً! إجمالي نقاطك: ${totalScore}`;
+  }
+  document.getElementById('rStreak').textContent=`🔥 سلسلة: ${streak} انتصار متتالي`;
+  document.getElementById('streakVal').textContent=streak;
+  updateScoreCards();
+  document.getElementById('resultModal').classList.add('show');
+}
+
+function closeResult(){ document.getElementById('resultModal').classList.remove('show'); }
+
+function updateScoreCards(){
+  document.getElementById('playerScore').textContent=playerWins;
+  document.getElementById('aiScore').textContent=aiWins;
+  document.getElementById('drawScore').textContent=draws;
+  document.getElementById('roundNum').textContent=round;
+  document.getElementById('streakVal').textContent=streak;
+  // Active turn highlight
+  document.getElementById('cardPlayer').classList.toggle('active-turn',currentTurn===playerMark&&!gameOver);
+  document.getElementById('cardAI').classList.toggle('active-turn',currentTurn===aiMark&&!gameOver);
+}
+
+function setStatus(txt,cls=''){
+  const s=document.getElementById('statusBar');
+  s.className='status-bar'+(cls?' '+cls:'');
+  if(cls==='thinking'){
+    s.innerHTML=`<span style="display:inline-flex;align-items:center;gap:6px;">
+      <span class="think-dots"><span class="think-dot"></span><span class="think-dot"></span><span class="think-dot"></span></span>
+      AI يفكر...
+    </span>`;
+  } else { s.textContent=txt; }
+}
+
+// ══ CONFETTI ══
+function confetti(){
+  const w=document.getElementById('confW');w.innerHTML='';
+  const em=['🎉','✨','🌟','💫','🎊','🌸','💕','🎀'];
+  for(let i=0;i<30;i++){
+    const p=document.createElement('div');p.className='cp';
+    p.textContent=em[0|Math.random()*em.length];
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(2+Math.random()*2.5)+'s';
+    p.style.animationDelay=(Math.random()*1.5)+'s';
+    w.appendChild(p);
+  }
+  setTimeout(()=>w.innerHTML='',6000);
+}
+
+// ══ NAV ══
+function goHome(){
+  closeResult();showScreen('splashScreen');
+}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Default level highlight
+document.querySelector('.lvl-card').style.border='2px solid rgba(244,143,177,0.55)';
+document.querySelector('.lvl-card').style.background='rgba(244,143,177,0.08)';
+
+// ══ SCROLL HINT ══
+// Hide bottom fade when user scrolls to bottom
+document.querySelectorAll('.screen').forEach(screen=>{
+  screen.addEventListener('scroll',function(){
+    const atBottom=this.scrollHeight-this.scrollTop<=this.clientHeight+10;
+    this.classList.toggle('scrolled-to-bottom',atBottom);
+  },{passive:true});
+});
+</script>
+</body>
+</html>
