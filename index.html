@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform - Welcome Safae</title>
+    <link rel="stylesheet" href="platform.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="main-mountain-bg"></div>
+
+    <div class="container" id="loginPage">
+        <div class="welcome-section">
+            <h1>Welcome</h1>
+            <p>Explore your special platform...</p>
+            <div class="sparkle-divider">✦</div>
+        </div>
+
+        <div class="login-card">
+            <div class="avatar-container">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <h2>Sign In</h2>
+            <p class="subtitle">Enter your password <br> to reveal your gift 🎉🎁</p>
+            <div class="small-sparkle">✦</div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <i class="fa-solid fa-lock lock-icon"></i>
+                    <input type="password" id="passwordField" placeholder="••••••••" required>
+                    <i class="fa-solid fa-eye-slash toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                </div>
+                <button type="submit" class="explore-btn">EXPLORE</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-card">
+            <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <h3>تم التحقق بنجاح! 🎉</h3>
+            <p id="loadingStatusText">جاري فتح المنصة وتأمين الحساب...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+   <div class="dashboard-container" id="dashboardPage">
+
+        <div class="safae-card-wrapper">
+
+            <div class="safae-card">
+
+                <button class="dashboard-explore-btn" onclick="goToMainDashboard()">Explore Now</button>
+
+            </div>
+
+        </div>
+
+    </div> 
+
+   
+    <div class="main-dashboard-container" id="mainDashboard">
+        <div class="dashboard-custom-frame">
+            
+            <div class="zones-scroll-wrapper">
+                
+                <div class="zone-card netflix-neon">
+                    <div class="zone-card-inner">
+                        <div class="zone-img-box">
+                            <img src="WhatsApp Image 2026-06-09 at 1.47.12 AM.jpeg" alt="Netflix">
+                        </div>
+                        <div class="zone-info">
+                            <a href="#" class="explore-zone-btn btn-netflix" onclick="openNetflixZone(); return false;">
+                                Explore Now <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-card gaming-neon">
+                    <div class="zone-card-inner">
+                        <div class="zone-img-box">
+                            <img src="WhatsApp Image 2026-06-09 at 1.47.25 AM.jpeg" alt="Gaming Hub">
+                        </div>
+                        <div class="zone-info">
+                            <a href="games zone.html" class="explore-zone-btn btn-sticker">
+                                Explore Now <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-card sticker-neon">
+                    <div class="zone-card-inner">
+                        <div class="zone-img-box">
+                            <img src="ChatGPT Image Jun 28, 2026, 10_46_13 PM.png" alt="Sticker Space">
+                        </div>
+                        <div class="zone-info">
+                            <a href="stickers.html" class="explore-zone-btn btn-sticker">
+                                Explore Now <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div> 
+
+
+         </div> </div> </div> <div class="netflix-zone-fullscreen" id="netflixZonePage">
+        
+        <div class="netflix-cinematic-bg-overlay"></div>
+
+        <div class="netflix-content-wrapper">
+            <div class="netflix-brand-title">NETFLIX</div>
+            
+            <h1 class="netflix-welcome-heading">
+                Welcome to<br>
+                <span>Netflix zone</span>
+            </h1>
+
+            <p class="netflix-safae-expression">
+                Your premium gate to unlimited cinematic magic. I've fully paid this Netflix subscription for you as a special gift to enjoy your favorite movies and series! 🎁✨
+            </p>
+
+            <div class="netflix-btn-group">
+                <button class="n-btn btn-open" onclick="openVipWithTransition()">
+                    OPEN <i class="fas fa-play"></i>
+                </button>
+                <button class="n-btn btn-back" onclick="closeNetflixWithTransition()">
+                    BACK <i class="fas fa-undo-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="netflix-vip-card-overlay" id="netflixVipCard">
+            <div class="netflix-vip-card">
+                <button class="close-vip-btn" onclick="closeVipWithTransition()">&times;</button>
+                
+                <div class="vip-card-header">
+                    <i class="fab fa-netflix vip-logo-icon"></i>
+                    <h3>PREMIUM VIP PASS</h3>
+                    <p>Please copy the email below, then paste them on the Netflix sign-in screen after clicking the button below.</p>
+                </div>
+
+            
+                    <div class="vip-credentials-box">
+                    <!-- خيار الإيميل غيبقا كيمّا هو -->
+                    <div class="cred-row">
+                        <label>EMAIL</label>
+                        <div class="input-copy-group">
+                            <input type="text" id="netflixEmail" value="safaegift@gmail.com" readonly>
+                            <button onclick="copyText('netflixEmail', this)"><i class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- 🌸 الرسالة الذكية بالدارجة مع رابط الإيميل المباشر -->
+                    <div class="netflix-security-tip-direct" style="margin-top: 15px; padding: 12px; background: rgba(163, 152, 0, 0.1); border-left: 3px solid #ffe204; border-radius: 8px; text-align: right; direction: rtl;">
+                        <h4 style="color: #ffffff; margin: 0 0 6px 0; font-size: 0.95rem; font-weight: 700; font-family: sans-serif;">🔑 إلا طلب منك نيتفليكس كود التفعيل:</h4>
+                        <p style="color: #cccccc; margin: 0; font-size: 0.85rem; line-height: 1.5; font-family: sans-serif;">
+                            ما تخافي والو! كليكي هنا باش تدخلي نيشان لـ <a href="https://mail.google.com" target="_blank" style="color: #f6fd30; text-decoration: underline; font-weight: 600;">Gmail</a>، بدّلي الحساب للإيميل الجديد لّي عاد دخلتيه، ديري <b>Refresh</b> (تحديث) للصفحة، وغاتلقاي آخر كود صيفطوه نيتفليكس، نسخيه وحطيه فالبلاصة ديال الكود!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- زر فتح نيتفليكس الأصلي ديالك غيبقا كيمّا هو -->
+                <a href="https://www.netflix.com" target="_blank" class="launch-netflix-btn" onclick="triggerDeepLink(event)">
+                    LAUNCH NETFLIX <i class="fas fa-play"></i>
+                </a>
+
+        
+            </div>
+        </div>
+    </div>
+       
+          <script src="platform.js"></script>
+           <script src="sudoku.js"></script>
+</body>
+</html>

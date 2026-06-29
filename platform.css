@@ -1,0 +1,1075 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ================= 1. أنيميشن الألوان والنيون المتغير ================= */
+@keyframes gradientShift {
+    0% { filter: hue-rotate(0deg) blur(8px); }
+    50% { filter: hue-rotate(45deg) blur(12px); }
+    100% { filter: hue-rotate(0deg) blur(8px); }
+}
+
+@keyframes neonFilterGlow {
+    0% {
+        filter: drop-shadow(0 0 15px rgba(0, 188, 212, 0.5)) 
+                drop-shadow(0 0 30px rgba(0, 188, 212, 0.2));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(255, 117, 140, 0.6)) 
+                drop-shadow(0 0 40px rgba(255, 117, 140, 0.3));
+    }
+    100% {
+        filter: drop-shadow(0 0 15px rgba(0, 188, 212, 0.5)) 
+                drop-shadow(0 0 30px rgba(0, 188, 212, 0.2));
+    }
+}
+
+body {
+    width: 100%;
+    height: 100vh; /* العودة للارتفاع الثابت الصارم لمنع السكرول */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* قفل الـ overflow تماماً لمنع ظهور أي scrollbar */
+    background-color: #0c1a30;
+}
+
+.main-mountain-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: url('kbbbbb.png') no-repeat center center/cover;
+    z-index: -2;
+    transition: all 1s ease;
+}
+
+.main-mountain-bg.blurred {
+    animation: gradientShift 10s infinite ease-in-out;
+    transform: scale(1.05);
+}
+
+/* ================= 2. واجهة تسجيل الدخول الأساسية (سطح المكتب) ================= */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.container.active { display: flex; opacity: 1; }
+.container:not(.active) { display: none; opacity: 0; }
+
+.welcome-section { 
+    color: #ffffff; 
+    max-width: 450px; 
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    direction: ltr; 
+    text-align: left; 
+    display: flex;
+    flex-direction: column;
+}
+.welcome-section h1 { font-size: 4.5rem; font-weight: 600; line-height: 1; margin-bottom: 10px; }
+.welcome-section p { font-size: 1.4rem; opacity: 0.9; margin-bottom: 15px; }
+
+.sparkle-divider { 
+    font-size: 1.2rem; 
+    opacity: 0.7; 
+    position: relative; 
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+}
+.sparkle-divider::before, .sparkle-divider::after { 
+    content: ''; 
+    position: absolute; 
+    top: 50%; 
+    width: 35%; 
+    height: 1px; 
+    background: white; 
+    opacity: 0.4; 
+}
+.sparkle-divider::before { left: 0; }
+.sparkle-divider::after { right: 0; }
+
+.login-card {
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 30px;
+    padding: 40px;
+    width: 420px;
+    text-align: center;
+    color: #ffffff;
+    direction: ltr;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.avatar-container { width: 90px; height: 90px; background: linear-gradient(135deg, #2da1e7 0%, #00bcd4 100%); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; border: 3px solid rgba(255,255,255,0.8); box-shadow: 0 8px 20px rgba(0, 188, 212, 0.3); }
+.avatar-container i { color: white; font-size: 2.5rem; }
+.login-card h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; color: #ffffff; }
+.subtitle { font-size: 0.95rem; line-height: 1.4; margin-bottom: 10px; opacity: 0.85; color: #e2e8f0; }
+.small-sparkle { color: #00bcd4; margin-bottom: 25px; font-size: 0.8rem; }
+.input-group { position: relative; margin-bottom: 15px; }
+.input-group input { width: 100%; padding: 15px 45px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.1); border-radius: 15px; font-size: 1.1rem; color: #ffffff; outline: none; transition: 0.3s; }
+.input-group input::placeholder { color: rgba(255,255,255,0.5); }
+.input-group input:focus { background: rgba(255, 255, 255, 0.15); border-color: #00bcd4; }
+.lock-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #00bcd4; font-size: 1.2rem; }
+.toggle-password { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #a0aec0; cursor: pointer; }
+
+.explore-btn { width: 100%; padding: 15px; border: none; border-radius: 15px; background: linear-gradient(90deg, #ff758c 0%, #ff7c6e 35%, #00bcd4 100%); color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s ease; box-shadow: 0 10px 20px rgba(255, 117, 140, 0.3); }
+.explore-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(0, 188, 212, 0.5); }
+
+/* ================= 3. ستايل نافذة الـ Loading ================= */
+.loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(12, 26, 48, 0.6); backdrop-filter: blur(15px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; z-index: 100; }
+.loading-overlay.active { opacity: 1; pointer-events: auto; }
+.loading-card { background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 24px; padding: 35px 40px; width: 360px; text-align: center; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); }
+.success-icon { font-size: 3.5rem; color: #2da1e7; margin-bottom: 15px; animation: scaleUp 0.4s ease-out; }
+.loading-card h3 { font-size: 1.4rem; color: #102a43; margin-bottom: 5px; }
+.loading-card p { font-size: 0.95rem; color: #627d98; margin-bottom: 20px; }
+.progress-bar-container { width: 100%; height: 8px; background: rgba(0, 0, 0, 0.08); border-radius: 10px; overflow: hidden; }
+.progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff758c 0%, #2da1e7 50%, #00bcd4 100%); border-radius: 10px; transition: width 0.1s linear; }
+
+/* ================= 4. واجهة صفاء المتجاوبة بالكامل ================= */
+.dashboard-container {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.dashboard-container.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.safae-card-wrapper {
+    height: 95vh;
+    max-height: 100%;
+    aspect-ratio: 930 / 1080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: neonFilterGlow 6s infinite ease-in-out; 
+}
+
+.safae-card {
+    width: 100%;
+    height: 100%;
+    background: url('safae.png') no-repeat center center/contain;
+    position: relative;
+    border-radius: 28px;
+}
+
+.dashboard-explore-btn {
+    position: absolute;
+    bottom: 21.8%;   
+    left: 10.2%;     
+    width: 24.5%;    
+    height: 4.8%;    
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(90deg, rgba(255,117,140,0.85) 0%, rgba(0,188,212,0.85) 100%);
+    color: white;
+    font-size: calc(0.4vw + 0.65rem); 
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 188, 212, 0.3);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.dashboard-explore-btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 22px rgba(255, 117, 140, 0.5);
+    background: linear-gradient(90deg, rgba(0,188,212,0.95) 0%, rgba(255,117,140,0.95) 100%);
+}
+/* ==========================================================================
+   القسم 6: حاوية الـ Scroll مع مساحة أمان علوية للتيتل (Title Safe Zone)
+   ========================================================================= */
+#mainDashboard {
+    display: none !important;
+    opacity: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 30;
+}
+#mainDashboard.active {
+    display: flex !important;
+    opacity: 1 !important;
+}
+
+/* فريم الواجهة الثالثة الثابت */
+.dashboard-custom-frame {
+    height: 96vh;
+    max-height: 100%;
+    aspect-ratio: 930 / 1080;
+    background: url('s22.png') no-repeat center center;
+    background-size: contain;
+    position: relative;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    box-sizing: border-box;
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* 🌟 الحاوية المطورة: توازن مثالي بين ظهور الكارت الأخير بالكامل وحماية التيتل علوياً */
+.zones-scroll-wrapper {
+    width: 86%;            
+    
+    /* 🚀 رجعناها لـ 23.5vh باش نضمنو هبوط السقف العلوي ونخليو اتساع نقي للتيتل */
+    height: 23.5vh;        
+    max-height: 23.5vh;
+    
+    /* 🚀 ضبط المسافة السفلية بدقة ميكرومترية */
+    margin: 0 auto calc(4% + 2px); 
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    /* 🚀 الحفاظ على مساحة تنفس سفلية عميقة داخل الحاوية لحماية الكارت الأخير من البتر */
+    padding: 10px 14px 60px 14px;    
+    display: flex;
+    flex-direction: column;
+    gap: 16px;             
+    box-sizing: border-box;
+
+    /* 🎬 تعديل قناع التلاشي: يبدأ الاختفاء التدريجي بـ 4% إضافية لأسفل لحماية سطر [to your special platform...] */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 16%,       /* رفعنا النسبة هنا باش الكروت تذوب بكري قبل ما تقرب للتيتل */
+        black 75%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 16%,
+        black 75%,
+        transparent 100%
+    );
+}
+
+/* تخصيص الـ Scrollbar */
+.zones-scroll-wrapper::-webkit-scrollbar { width: 2px; }
+.zones-scroll-wrapper::-webkit-scrollbar-track { background: transparent; }
+.zones-scroll-wrapper::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, rgba(255,117,140,0.3), rgba(0,198,255,0.3)); border-radius: 10px; }
+
+/* ديزاين الكروت للشاشات الكبيرة */
+.zone-card {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 18px;
+    padding: 14px 20px;  
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    will-change: transform; 
+}
+.zone-card-inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.zone-img-box { width: 80px; height: 58px; border-radius: 10px; overflow: hidden; flex-shrink: 0; box-shadow: 0 5px 12px rgba(0,0,0,0.25); }
+.zone-img-box img { width: 100%; height: 100%; object-fit: cover; }
+.zone-info { display: flex; align-items: center; justify-content: flex-end; flex-grow: 1; }
+.explore-zone-btn { padding: 10px 24px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; font-weight: 600; color: #fff; white-space: nowrap; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
+
+.netflix-neon { box-shadow: 0 0 12px rgba(229, 9, 20, 0.2); }
+.btn-netflix { background: linear-gradient(135deg, #e50914, #b81d24); }
+
+
+/* ==========================================================================
+   🎮 GAMING ZONE CARD BUTTON: ALWAYS CINEMATIC BLUE (ZNOVA Patched)
+   ========================================================================== */
+
+/* 1. Base State: Set the button to ALWAYS be blue [cite: platform_2.css] */
+.gaming-neon { 
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.2) !important; /* Always blue shadow */
+}
+
+.btn-gaming { 
+    /* Base blue cinematic gradient [cite: platform_2.css], not just on hover */
+    background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%) !important;
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.25) !important;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important; /* Unified cinematic transition [cite: platform_2.css] */
+}
+
+/* 2. Hover Effect: Brighten the existing blue, don't change the color */
+.gaming-neon .explore-zone-btn:hover {
+    background: linear-gradient(135deg, #45d7ff 0%, #00d2ff 100%) !important; /* Brighten to electric blue [cite: platform_2.css] */
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4) !important;
+    transform: scale(1.08) !important; /* Keeps unified scaling animation [cite: platform_2.css] */
+    color: #fff !important;
+}
+
+.sticker-neon { box-shadow: 0 0 12px rgba(255, 0, 128, 0.2); }
+.btn-sticker { background: linear-gradient(135deg, #f857a6, #ff5858); }
+.zone-card:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.18); }
+
+/* ==========================================================================
+   القسم 7: الميديا كويري للموبايل (مستقرة وتعمل بشكل مثالي كما هي)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .dashboard-custom-frame {
+        height: 94vh; 
+        width: 95%;
+        aspect-ratio: 930 / 1080;
+        padding: 15px;
+        overflow: hidden;
+    }
+    .zones-scroll-wrapper {
+        width: 90%;            
+        height: 19vh;          
+        max-height: 19vh;
+        margin-bottom: calc(11% + 2px); 
+        padding: 12px 14px 45px 14px;     
+        gap: 14px;
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 10%,
+            black 82%,
+            transparent 100%
+        );
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 10%,
+            black 82%,
+            transparent 100%
+        );
+    }
+    .zone-card { padding: 12px 18px; border-radius: 16px; }
+    .zone-img-box { width: 78px; height: 54px; border-radius: 8px; }
+    .explore-zone-btn { padding: 9px 20px; font-size: 0.85rem; gap: 6px; }
+}
+
+/* ==========================================================================
+   إصلاح وأنيميشن واجهة Netflix Zone (ZNOVA Cinematic Motion)
+   ========================================================================== */
+
+.netflix-zone-fullscreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: flex-start;
+    box-sizing: border-box; padding-left: 8%;
+    font-family: 'Poppins', sans-serif;
+    z-index: 9999;
+    overflow: hidden;
+    
+    /* 🌟 تأثير الانتقال السلس عند فتح الصفحة */
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none; /* كيمع الضغط عليها وهي مخفية */
+}
+
+/* حالة الفتح (الـ JavaScript غايضيف هاد الـ Class) */
+.netflix-zone-fullscreen.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* دمج صورة الـ Movie Grid مع الظلال */
+.netflix-cinematic-bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('Big Changes Are Coming to Disney+.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 1;
+}
+.netflix-cinematic-bg-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: 
+        radial-gradient(circle at top right, rgba(229, 9, 20, 0.4) 0%, transparent 55%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 45%, rgba(0, 0, 0, 0.1) 100%);
+    z-index: 2;
+}
+
+.netflix-content-wrapper {
+    position: relative;
+    z-index: 3;
+    max-width: 500px;
+    display: flex; flex-direction: column; gap: 15px;
+}
+.netflix-brand-title {
+    color: #e50914; font-size: 2.2rem; font-weight: 900; letter-spacing: 2px;
+}
+.netflix-welcome-heading {
+    color: #fff; font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin: 0;
+}
+.netflix-welcome-heading span { color: #e50914; }
+
+/* ستايل العبارة الجديدة المخصصة لصفاء */
+.netflix-safae-expression {
+    color: rgba(255, 255, 255, 0.85); font-size: 1.05rem; line-height: 1.6; margin: 5px 0 15px 0;
+}
+.netflix-safae-expression span {
+    color: #ff333f; font-weight: 600;
+}
+
+.netflix-btn-group { display: flex; gap: 20px; }
+.n-btn {
+    border: none; padding: 14px 40px; font-size: 1.1rem; font-weight: 700;
+    border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-open {
+    background: linear-gradient(135deg, #e50914 0%, #9b070d 100%); color: #fff;
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+}
+.btn-open:hover {
+    transform: translateY(-3px); box-shadow: 0 0 35px rgba(229, 9, 20, 0.7);
+}
+.btn-back {
+    background: linear-gradient(135deg, #ffffff 0%, #dcdcdc 100%); color: #141414;
+}
+.btn-back:hover {
+    transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+/* 🌟 الـ Overlay د الـ VIP Card مع تأثير الـ Fade الـ Soft */
+.netflix-vip-card-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 10;
+    
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+.netflix-vip-card-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.netflix-vip-card {
+    background: rgba(20, 20, 20, 0.9);
+    border: 2px solid rgba(212, 175, 55, 0.3); /* إطار ذهبي خفيف */
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+    border-radius: 24px; padding: 35px 25px;
+    width: 90%; max-width: 380px; position: relative; text-align: center; box-sizing: border-box;
+    
+    transform: translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.netflix-vip-card-overlay.active .netflix-vip-card {
+    transform: translateY(0);
+}
+
+.close-vip-btn {
+    position: absolute; top: 15px; right: 20px;
+    background: transparent; border: none; color: rgba(255,255,255,0.4);
+    font-size: 1.8rem; cursor: pointer;
+}
+.close-vip-btn:hover { color: #d4af37; }
+.vip-logo-icon { font-size: 3rem; color: #e50914; margin-bottom: 10px; }
+
+/* 🌟 أنيميشن الـ Gold الـ Animated الرهيب للعنوان */
+.vip-card-header h3 {
+    font-size: 1.5rem; font-weight: 900; margin: 0; letter-spacing: 2px;
+    background: linear-gradient(to right, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShine 3s linear infinite;
+}
+
+@keyframes goldShine {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ستايل نص الشرح الصغير لنسخ الإيميل والباسورد */
+.vip-card-header p { 
+    color: rgba(255,255,255,0.7); font-size: 0.85rem; line-height: 1.4; margin: 10px 0 25px 0; padding: 0 5px;
+}
+
+.vip-credentials-box { display: flex; flex-direction: column; gap: 16px; margin-bottom: 25px; }
+.cred-row { text-align: left; }
+.cred-row label { color: #d4af37; font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 5px; letter-spacing: 1px; }
+.input-copy-group { display: flex; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px; overflow: hidden; }
+.input-copy-group input { background: transparent; border: none; padding: 12px; color: #fff; font-size: 0.95rem; width: 100%; outline: none; }
+.input-copy-group button { background: rgba(255,255,255,0.03); border: none; border-left: 1px solid rgba(212,175,55,0.2); color: rgba(255,255,255,0.6); padding: 0 14px; cursor: pointer; transition: all 0.2s; }
+.input-copy-group button:hover { background: #d4af37; color: #141414; }
+.launch-netflix-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #d4af37, #aa771c); color: #141414; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 700; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); transition: all 0.3s; }
+.launch-netflix-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4); }
+
+/* ==========================================================================
+   🎮 منطقة الألعاب المحدثة والذكية (ZNOVA Premium Scroll Architecture)
+   ========================================================================== */
+
+.games-zone-fullscreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden; /* منع أي سكرول خارجي نهائياً */
+    padding: 20px;
+    pointer-events: none;
+}
+
+.games-zone-fullscreen.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* الخلفية المتدرجة للبلاتفورم */
+.games-animated-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(-45deg, #FFB6C1, #87CEEB, #F06292, #4FC3F7);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    z-index: 1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🏛️ الإطار الأبيض الأساسي (ممنوع من السكرول في الـ PC بشكل افتراضي) */
+.games-main-frame {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    width: 95%; 
+    max-width: 750px; 
+    max-height: 90vh;
+    padding: 30px 40px; 
+    border-radius: 32px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+    
+    /* 🚀 الوضع الافتراضي ف الـ PC: إخفاء السكرول تماماً باش واجهة الكروت تبان نقية */
+    overflow: hidden; 
+    transition: max-width 0.4s ease, max-height 0.4s ease, padding 0.4s ease;
+}
+
+/* ⚡ كلاس السودوكو النشط: دابا فقط ف الـ PC كيتفعل السكرول الداخلي الذكي */
+.games-main-frame.sudoku-mode-active {
+    max-width: 550px;
+    max-height: 95vh;
+    padding: 20px;
+    overflow-y: auto; /* كيتفعل السكرول غير ملي نكونو وسط اللعبة ف الـ PC */
+}
+
+/* ✨ تخصيص شكل السكرول الفخم للإطار الأبيض (فقط ملي يكون السودوكو شغال ف الـ PC) */
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar {
+    width: 8px;
+}
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar-track {
+    background: transparent;
+}
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar-thumb {
+    background: linear-gradient(#F06292, #FF80AB);
+    border-radius: 10px;
+}
+
+.games-back-btn {
+    position: absolute; top: 20px; left: 20px;
+    background: none; border: none; font-size: 1.4rem;
+    color: #F06292; cursor: pointer; transition: transform 0.3s;
+    z-index: 100;
+}
+.games-back-btn:hover { transform: translateX(-5px); }
+
+.games-header { margin-bottom: 25px; }
+
+.games-main-title {
+    font-size: 1.8rem; font-weight: 800;
+    background: linear-gradient(to right, #F06292, #4FC3F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+.games-sub-title { color: #555; font-size: 0.95rem; line-height: 1.6; font-weight: 500; direction: rtl; }
+
+/* حاوية الكروت */
+.games-cards-container { display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto; }
+
+.game-item-card {
+    background: #fff; border-radius: 20px; padding: 12px 25px; 
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04); border: 1px solid rgba(240, 98, 146, 0.08);
+}
+.game-img-box { width: 70px; height: 70px; border-radius: 16px; overflow: hidden; flex-shrink: 0; }
+.game-img-box img { width: 100%; height: 100%; object-fit: cover; }
+.game-info-box { display: flex; align-items: center; justify-content: space-between; flex-grow: 1; text-align: left; }
+.game-info-box h3 { margin: 0; font-size: 1.1rem; color: #333; font-weight: 700; }
+.game-open-btn {
+    background: linear-gradient(135deg, #F06292, #FF80AB); color: white; border: none; 
+    padding: 10px 24px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+}
+
+.sudoku-game-wrapper {
+    width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+}
+
+/* ==========================================================================
+   🎮 منطقة الألعاب المحدثة والذكية (ZNOVA Premium Scroll Architecture V2)
+   ========================================================================== */
+
+.games-zone-fullscreen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden; 
+    padding: 20px;
+    pointer-events: none;
+}
+
+.games-zone-fullscreen.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* الخلفية المتدرجة للبلاتفورم */
+.games-animated-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(-45deg, #FFB6C1, #87CEEB, #F06292, #4FC3F7);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+    z-index: 1;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🏛️ الإطار الأبيض الأساسي */
+.games-main-frame {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    width: 95%; 
+    max-width: 750px; 
+    max-height: 90vh;
+    padding: 40px; 
+    border-radius: 32px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-sizing: border-box;
+    overflow: hidden; /* إخفاء السكرول الافتراضي ف الكروت بالـ PC */
+    transition: max-width 0.4s ease, max-height 0.4s ease, padding 0.4s ease;
+}
+
+/* ⚡ تفعيل السكرول المخصص ف الـ PC عند تفعيل السودوكو */
+.games-main-frame.sudoku-mode-active {
+    max-width: 550px;
+    max-height: 95vh;
+    padding: 30px 20px 20px 20px;
+    overflow-y: auto; 
+}
+
+/* ✨ إصلاح السكرول بار العايم ف الـ PC (نسخة الصورة 2 لداخل ونقية) */
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar {
+    width: 12px;
+}
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar-track {
+    background: transparent;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.games-main-frame.sudoku-mode-active::-webkit-scrollbar-thumb {
+    background: linear-gradient(#F06292, #FF80AB);
+    border-radius: 10px;
+    border: 3px solid rgba(255, 255, 255, 0.94); /* السحر لّي كيخليه يدخل لداخل ويبعد على الحافة */
+    background-clip: padding-box;
+}
+
+/* سهم الرجوع الرئيسي */
+.games-back-btn {
+    position: absolute; top: 20px; left: 20px;
+    background: none; border: none; font-size: 1.4rem;
+    color: #F06292; cursor: pointer; transition: transform 0.3s;
+    z-index: 100;
+}
+.games-back-btn:hover { transform: translateX(-5px); }
+
+.games-header { margin-bottom: 25px; }
+
+.games-main-title {
+    font-size: 1.8rem; font-weight: 800;
+    background: linear-gradient(to right, #F06292, #4FC3F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+.games-sub-title { color: #555; font-size: 0.95rem; line-height: 1.6; font-weight: 500; direction: rtl; }
+
+/* حاوية الكروت */
+.games-cards-container { display: flex; flex-direction: column; gap: 12px; max-width: 600px; margin: 0 auto; }
+
+.game-item-card {
+    background: #fff; border-radius: 20px; padding: 12px 25px; 
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.04); border: 1px solid rgba(240, 98, 146, 0.08);
+}
+.game-img-box { width: 70px; height: 70px; border-radius: 16px; overflow: hidden; flex-shrink: 0; }
+.game-img-box img { width: 100%; height: 100%; object-fit: cover; }
+.game-info-box { display: flex; align-items: center; justify-content: space-between; flex-grow: 1; text-align: left; }
+.game-info-box h3 { margin: 0; font-size: 1.1rem; color: #333; font-weight: 700; }
+.game-open-btn {
+    background: linear-gradient(135deg, #F06292, #FF80AB); color: white; border: none; 
+    padding: 10px 24px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+}
+
+.sudoku-game-wrapper {
+    width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+}
+
+/* ==========================================================================
+   📱 ميديا كويري الموبايل
+   ========================================================================== */
+@media (max-width: 768px) {
+    .games-zone-fullscreen { padding: 10px; }
+
+    .games-main-frame {
+        max-height: calc(100vh - 20px);
+        padding: 45px 15px 20px 15px;
+        border-radius: 24px;
+        overflow-y: auto !important;
+    }
+
+    .games-main-frame.sudoku-mode-active {
+        padding: 40px 10px 10px 10px;
+        max-height: calc(100vh - 10px);
+    }
+
+    /* الـ Scrollbar العايم ف الموبايل */
+    .games-main-frame::-webkit-scrollbar {
+        width: 10px; 
+    }
+    .games-main-frame::-webkit-scrollbar-track {
+        background: transparent; 
+        margin-top: 15px; margin-bottom: 15px;
+    }
+    .games-main-frame::-webkit-scrollbar-thumb {
+        background: linear-gradient(#F06292, #FF80AB);
+        border-radius: 10px;
+        border: 3px solid rgba(255, 255, 255, 0.94);
+        background-clip: padding-box;
+    }
+
+    .sudoku-grid {
+        width: 100% !important; max-width: 320px !important; 
+        height: auto !important; aspect-ratio: 1 / 1 !important; gap: 1px !important;
+    }
+    .cell { font-size: 1.1rem !important; }
+    .numpad { width: 100% !important; max-width: 320px !important; gap: 6px !important; margin-top: 10px !important; }
+    .numpad-btn { height: 42px !important; font-size: 1.2rem !important; }
+
+    .game-item-card { flex-direction: column; text-align: center; padding: 15px; gap: 10px; }
+    .game-info-box { flex-direction: column; gap: 10px; width: 100%; }
+    .game-open-btn { width: 100%; padding: 8px 0; }
+}
+
+/* ==========================================================================
+   🎬 ALL GAMES BUTTONS: UNIFIED SIZE & CINEMATIC BLUE TRANSITION
+   ========================================================================== */
+
+/* ضبط وتوحيد حجم جميع أزرار Open Now ليرجعوا بنفس المقاس تماماً */
+.game-open-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important; /* كيخليهم كاملين شادين نفس العرض المتناسق */
+    max-width: 150px;       /* كيحافظ على الحجم الأنيق د الزر */
+    height: 40px !important;
+    text-decoration: none !important;
+    font-weight: 600;
+    border-radius: 20px;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important; /* ترانزيشن سينمائي ناعم */
+}
+
+/* تأثير الـ Hover السحري: التحول للأزرق السماوي وتكبير الإطار بـ سلاسة لكل الأزرار */
+.game-open-btn:hover {
+    background: linear-gradient(135deg, #00d2ff, #0066ff) !important; /* الـ Gradient د الأزرق السماوي */
+    transform: scale(1.08) !important; /* تكبير ناعم للزر */
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4) !important; /* إضاءة زرقاء خفيفة */
+    color: #fff !important;
+}
+
+/* تأثير خفيف جداً عند الضغط الفعلي بالماوس */
+.game-open-btn:active {
+    transform: scale(0.98) !important;
+    transition: all 0.1s ease !important;
+}
+
+/* ==========================================================================
+   📱 حزمة التجاوب للهواتف الذكية والتابلت (ZNOVA Responsive Patch)
+   ========================================================================== */
+
+/* للشاشات المتوسطة مثل الأجهزة اللوحية والتابلت (أقل من 992 بكسل) */
+@media (max-width: 992px) {
+    .netflix-zone-fullscreen {
+        padding-left: 5%; /* تقليص الحافة قليلاً للموازنة */
+    }
+    .netflix-welcome-heading {
+        font-size: 2.8rem; /* تصغير حجم العنوان ليناسب الشاشة */
+    }
+}
+
+/* للشاشات الصغيرة جداً مثل الهواتف الذكية (أقل من 576 بكسل) */
+@media (max-width: 576px) {
+    .netflix-zone-fullscreen {
+        justify-content: center; /* تمركز المحتوى بالكامل في الوسط عمودياً وأفقياً */
+        padding: 20px; /* إضافة مسافة أمان من جميع حواف الهاتف */
+    }
+
+    /* تعديل الظلال الخلفية لتناسب الشاشة الرأسية للموبايل */
+    .netflix-cinematic-bg-overlay::before {
+        background: 
+            radial-gradient(circle at top, rgba(229, 9, 20, 0.45) 0%, transparent 70%),
+            linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.95) 100%);
+    }
+
+    .netflix-content-wrapper {
+        align-items: center; /* محاذاة اللوجو والنصوص والأزرار في الوسط */
+        text-align: center; /* جعل النص متمركزاً لراحة العين */
+        gap: 12px;
+        width: 100%;
+    }
+
+    .netflix-brand-title {
+        font-size: 1.8rem; /* حجم لوجو نتفليكس مناسب للموبايل */
+        letter-spacing: 1px;
+    }
+
+    .netflix-welcome-heading {
+        font-size: 2.2rem; /* تقليص حجم العنوان لكي لا ينقسم بشكل مشوه */
+        line-height: 1.2;
+    }
+
+    .netflix-safae-expression {
+        font-size: 0.95rem; /* تصغير الكرت التعريفي لصفاء ليكون مريحاً في القراءة */
+        line-height: 1.5;
+        margin: 5px 0 10px 0;
+        padding: 0 10px; /* مسافة داخلية صغيرة لحماية النص من الالتصاق بالحافة */
+    }
+
+    /* جعل الأزرار مرنة وتأخذ مساحة الشاشة بشكل متناسق */
+    .netflix-btn-group {
+        width: 100%;
+        flex-direction: column; /* ترتيب الأزرار فوق بعضها لتسهيل الضغط بالإصبع */
+        gap: 12px;
+    }
+
+    .n-btn {
+        width: 100%; /* الزر يأخذ العرض الكامل المتاح */
+        justify-content: center; /* تمركز كلمة OPEN و BACK داخل الأزرار */
+        padding: 12px 25px; /* تقليص الـ padding المفرط للموبايل */
+        font-size: 1rem;
+    }
+}
+
+
+/* ==========================================================================
+   📱 حزمة التجاوب لصفحة الدخول مع تخصيص الـ Scrollbar النيون (ZNOVA Smooth Scroll)
+   ========================================================================= */
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        padding: 20px;
+        width: 100%;
+        max-height: 100vh;
+        overflow-y: auto; /* تفعيل التمرير العمودي الذكي */
+        
+        /* 🎨 ستايل الـ Scrollbar الخاص بالمنصة للمتصفحات القياسية */
+        scrollbar-width: thin;
+        scrollbar-color: #00bcd4 rgba(255, 255, 255, 0.05);
+    }
+
+    /* ✨ تخصيص شريط التمرير لمحركات Webkit (Chrome, Safari, Edge) ليطابق النيون */
+    .container::-webkit-scrollbar {
+        width: 6px; /* جعل الشريط نحيفاً وأنيقاً */
+    }
+
+    .container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05); /* خلفية المجرى شبه شفافة */
+        border-radius: 10px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00bcd4 0%, #ff758c 100%); /* تدرج نيون انسيابي مطاطي */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #ff758c 0%, #00bcd4 100%); /* عكس الألوان برقة عند اللمس */
+    }
+
+    /* قسم الترحيب العلوي في الموبايل */
+    .welcome-section {
+        max-width: 100%;
+        text-align: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .welcome-section h1 {
+        font-size: 2.8rem;
+        margin-bottom: 5px;
+    }
+
+    .welcome-section p {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        opacity: 0.85;
+    }
+
+    /* خط التقسيم المزخرف بالنجوم */
+    .sparkle-divider {
+        font-size: 1rem;
+        margin-top: 2px;
+        width: 80%;
+    }
+    
+    .sparkle-divider::before, 
+    .sparkle-divider::after { 
+        width: 30%;
+    }
+
+    /* بطاقة تسجيل الدخول (نافذة الباسورد) */
+    .login-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 30px 20px;
+        border-radius: 24px;
+    }
+
+    .avatar-container {
+        width: 75px;
+        height: 75px;
+        margin-bottom: 15px;
+    }
+
+    .avatar-container i {
+        font-size: 2rem;
+    }
+
+    .login-card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+
+    .small-sparkle {
+        margin-bottom: 15px;
+    }
+
+    /* حقول الإدخال والأزرار */
+    .input-group input {
+        padding: 12px 40px;
+        font-size: 1rem;
+    }
+
+    .lock-icon { left: 15px; }
+    .toggle-password { right: 15px; }
+
+    .explore-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+}
+
+/* تحسين إضافي للشاشات الصغيرة جداً ذات الارتفاع الضيق */
+@media (max-width: 480px) and (max-height: 650px) {
+    .container {
+        gap: 15px;
+    }
+    .welcome-section h1 { font-size: 2.3rem; }
+    .welcome-section p { font-size: 0.95rem; }
+    .avatar-container { display: none; } 
+    .login-card h2 { font-size: 1.5rem; }
+}
+/* ==========================================================================
+   🎮 GAMING ZONE EXCLUSIVE STYLING (Blue Cinematic Gradient Patch)
+   ========================================================================== */
+
+/* This targets ONLY the button within the Gaming Zone card */
+.gaming-neon .game-open-btn {
+    background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%) !important;
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.25) !important;
+}
+
+/* Hover effect for the blue button */
+.gaming-neon .game-open-btn:hover {
+    background: linear-gradient(135deg, #00d2ff, #45d7ff) !important;
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.4) !important;
+    transform: scale(1.03); /* Keeps the scaling animation from other rules */
+}
+
