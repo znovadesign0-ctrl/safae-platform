@@ -1100,23 +1100,22 @@ body {
         background-size: contain !important;
     }
     
-    /* 📍 ضبط مكان الزر على اليسار وصغير جداً (تحت القلم الأخضر ديالك 100%) */
+   /* 📍 تموقع الزر الآمن على اليسار */
     .dashboard-explore-btn {
         position: absolute !important;
-        bottom: 21.8% !important;    /* الارتفاع المثالي ليكون تحت السطر الأخير */
-        left: 10.5% !important;      /* محاذاة دقيقة على اليسار مع بداية النص */
-        transform: none !important;   /* إلغاء التمركز فـ السنتر تماماً */
-        width: 26% !important;       /* تصغير عرض الزر ليناسب عمود الكتابة فقط */
-        height: 4.8% !important;     /* طول ديناميكي متناسق مع حجم الفريم */
-        font-size: 0.6rem !important; /* تصغير الخط ليتناسب مع الحجم الميكرو الجديد */
+        bottom: 21.8% !important;    
+        left: 10.5% !important;      
+        transform: scale(1) !important;   /* 💡 عوضنا none بـ scale(1) باش نفتحو الباب للحركة */
+        width: 26% !important;       
+        height: 4.8% !important;     
+        font-size: 0.6rem !important; 
         border-radius: 12px !important;
-        transition: transform 0.1s ease !important; /* كتحكم فـ النعومة ديال الحركة */
+        transition: transform 0.15s ease-in-out !important; /* 🎬 نعومة احترافية عند اللمس */
     }
 
-    /* 🎬 تأثير التكبير الآمن لّي عاد عدلنا */
+    /* 🎬 دابا غاتخدم الأنيميشن طوب وبلا ما يقيس التكست أو الصورة */
     .dashboard-explore-btn:active {
-        transform: scale(1.02) !important;
-        
+        transform: scale(1.03) !important; /* تكبير ميكروسكوبي آمن وسوفت بزاف */
     }
 
     /* 3️⃣ واجهة التصفح الثانية (Main Dashboard) */
