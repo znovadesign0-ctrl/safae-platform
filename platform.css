@@ -1075,12 +1075,12 @@ body {
 
 
     
-   /* ==========================================================================
-   🎯 التعديل الخرافي للشاشات الصغيرة: تناسب ذكي، سكرولر مضبوط، وتلاشي ناعم
+  /* ==========================================================================
+   🎯 الضبط المغناطيسي فـ السنتر الأبيض: كارت واحد فـ كل سكرول فالتيلفون
    ========================================================================= */
 @media (max-width: 480px) {
     
-    /* 1️⃣ حجب كامل للواجهة الثانية فـ الأول */
+    /* 1️⃣ حجب كامل للواجهة الثانية فـ الأول لضمان النقاء */
     #mainDashboard {
         display: none !important;
     }
@@ -1101,13 +1101,12 @@ body {
     }
     .dashboard-explore-btn {
         position: absolute !important;
-        bottom: 21.8% !important; /* مكان دقيق ومطابق تماماً للديزاين الأصلي */
+        bottom: 21.8% !important; /* مكان دقيق ومطابق للديزاين الأصلي */
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: 52% !important;
-        height: 38px !important; /* زر أنيق وصغير متناسب مع شاشة الهاتف */
+        height: 38px !important;
         font-size: 0.8rem !important;
-        letter-spacing: 0.5px;
     }
 
     /* 3️⃣ واجهة التصفح الثانية (Main Dashboard) */
@@ -1121,61 +1120,72 @@ body {
         justify-content: flex-end !important;
     }
 
-    /* 🚀 ضبط حدود السكرولر بدقة فـ السنتر (White Space الآمن) */
+    /* 🚀 تضييق الـ Limits ديال الحاوية باش تهبط تحت الكتابة وتجيب كارت واحد فـ السنتر */
     .zones-scroll-wrapper {
         position: absolute !important;
-        width: 82% !important;      /* مجموع ومحمي من الجوانب */
-        height: 22vh !important;     /* حد دقيق للسكرولر باش ما يقيسش التيتل الفوق */
-        max-height: 22vh !important;
-        bottom: 15% !important;      /* هزه فوق شوية باش يجي فـ السنتر الأبيض تماماً */
+        width: 84% !important;
+        
+        /* 📐 صغرنا الطول لـ 11.5vh باش يهز كارت واحد بـ الضبط وما يقيسش التيتل */
+        height: 11.5vh !important;     
+        max-height: 11.5vh !important;
+        
+        /* 📐 ضبط الموقع ليكون أسفل "to your special platform..." تماماً وفـ السنتر الأبيض */
+        bottom: 5.5% !important;      
         left: 50% !important;
         transform: translateX(-50%) !important;
+        
         margin: 0 !important;
-        padding: 15px 5px 35px 5px !important; /* مساحة تنفس سفلية لحماية الكارت الأخير */
-        gap: 10px !important;        /* مسافة ضيقة وأنيقة بين الكروت */
+        padding: 4px 5px !important; 
+        gap: 20px !important; /* إبعاد الكروت الأخرى هيدن لتحت */
         overflow-y: auto !important;
         overflow-x: hidden !important;
 
-        /* 🎬 قناع التلاشي السوفت والناعم (Soft Gradient Opacity) فـ السنتر */
+        /* 🧲 تفعيل خاصية السكرول المغناطيسي العمودي */
+        scroll-snap-type: y mandatory !important;
+        scroll-behavior: smooth !important;
+
+        /* 🎬 الـ Soft Gradient Opacity الحاد لـ حجب كاع الكروت الأخرى تماماً */
         -webkit-mask-image: linear-gradient(
             to bottom,
             transparent 0%,
-            black 12%,      /* تذويب سريع وناعم علوياً لحماية النص */
-            black 82%,
-            transparent 100% /* تذويب سفلي احترافي عند حركة الكروت */
+            black 15%,
+            black 85%,
+            transparent 100%
         ) !important;
         mask-image: linear-gradient(
             to bottom,
             transparent 0%,
-            black 12%,
-            black 82%,
+            black 15%,
+            black 85%,
             transparent 100%
         ) !important;
     }
 
-    /* 📱 تصغير حجم وشكل الكروت لـ تتناسب مع الأبعاد الجديدة */
+    /* 📱 ضبط الكارت الفردي لـ يأخذ المساحة بالكامل ويكون مغناطيسي */
     .zone-card {
-        padding: 6px 10px !important; /* كروت رشيقة وصغيرة */
-        border-radius: 12px !important;
         width: 100% !important;
+        height: 100% !important; /* ملء الحاوية بالكامل */
+        flex-shrink: 0 !important;
+        padding: 6px 12px !important;
+        border-radius: 14px !important;
         box-sizing: border-box !important;
-        background: rgba(255, 255, 255, 0.08) !important; /* تخفيف الخلفية لمظهر ناعم */
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        transition: transform 0.2s ease-in-out !important;
+        
+        /* 🧲 جعل الكارت يثبت فـ السنتر عند السكرول */
+        scroll-snap-align: center !important;
+        scroll-snap-stop: always !important;
     }
 
-    /* 🖼️ تصغير اللوغوهات (Pictures/Logos) */
+    /* 🖼️ لوغو المنصات لداخل (Netflix...) */
     .zone-img-box {
-        width: 52px !important;      /* حجم ميكرو متناسق للوغو نيتفليكس/الألعاب */
+        width: 52px !important;
         height: 38px !important;
         border-radius: 6px !important;
     }
 
-    /* 🔘 تصغير أزرار الاستكشاف الداخلية [Explore Now] */
+    /* 🔘 أزرار [Explore Now / استكشف الآن] */
     .explore-zone-btn {
-        padding: 6px 12px !important; /* زر صغير ومثالي للمس بالتيلفون */
-        font-size: 0.7rem !important;  /* تصغير الخط */
+        padding: 6px 14px !important;
+        font-size: 0.7rem !important;
         border-radius: 20px !important;
-        gap: 4px !important;
     }
 }
