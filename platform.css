@@ -1075,73 +1075,107 @@ body {
 
 
     
-    /* ==========================================================================
-   🎯 إصلاح الـ Responsiveness الكامل للشاشات الصغيرة (التيلفونات)
+   /* ==========================================================================
+   🎯 التعديل الخرافي للشاشات الصغيرة: تناسب ذكي، سكرولر مضبوط، وتلاشي ناعم
    ========================================================================= */
 @media (max-width: 480px) {
     
-    /* 1️⃣ إصلاح واجهة الترحيب الأولى (Welcome Safae) */
-    .safae-card-wrapper {
-        height: auto !important; /* إلغاء الارتفاع الثابت الكبيير */
-        width: 92% !important;   /* حماية الجوانب وموازنة الكارت */
-        margin: auto !important;
+    /* 1️⃣ حجب كامل للواجهة الثانية فـ الأول */
+    #mainDashboard {
+        display: none !important;
+    }
+    #mainDashboard.active {
+        display: flex !important;
     }
 
+    /* 2️⃣ واجهة الترحيب الأولى (Welcome Safae) */
+    .safae-card-wrapper {
+        height: auto !important;
+        width: 90% !important;
+        margin: auto !important;
+        position: relative;
+    }
     .safae-card {
-        aspect-ratio: 930 / 1080 !important; /* الحفاظ على أبعاد الديزاين الإلستريشن */
+        aspect-ratio: 930 / 1080 !important;
         background-size: contain !important;
     }
-
     .dashboard-explore-btn {
-        bottom: 6% !important;      /* رفع زر الاستكشاف لبلاصة آمنة ومريحة للضغط */
+        position: absolute !important;
+        bottom: 21.8% !important; /* مكان دقيق ومطابق تماماً للديزاين الأصلي */
         left: 50% !important;
-        transform: translateX(-50%) !important; /* موازنة الزر فـ الوسط 100% */
-        width: 60% !important;       /* تكبير العرض شوية باش يجي متناسق مع التيلفون */
-        height: 50px !important;     /* إعطاء طول ثابت ومريح للمس */
-        font-size: 0.95rem !important;
+        transform: translateX(-50%) !important;
+        width: 52% !important;
+        height: 38px !important; /* زر أنيق وصغير متناسب مع شاشة الهاتف */
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px;
     }
 
-    .dashboard-explore-btn:hover {
-        transform: translateX(-50%) scale(1.03) !important;
-    }
-
-    /* 2️⃣ إصلاح واجهة التصفح الرئيسية الثانية (Main Dashboard - الألعاب والمنصات) */
+    /* 3️⃣ واجهة التصفح الثانية (Main Dashboard) */
     .dashboard-custom-frame {
         height: auto !important;
-        width: 92% !important;
+        width: 90% !important;
         aspect-ratio: 930 / 1080 !important;
         margin: auto !important;
-        padding: 15px !important;
+        padding: 0 !important;
+        position: relative;
         justify-content: flex-end !important;
     }
 
-    /* موازنة حاوية الكروت الـ Scroll داخل الفريم الجديد */
+    /* 🚀 ضبط حدود السكرولر بدقة فـ السنتر (White Space الآمن) */
     .zones-scroll-wrapper {
-        width: 90% !important;
-        height: 35vh !important;     /* إعطاء مساحة أكبر ومريحة للـ Scroll فالتيلفون */
-        max-height: 38vh !important;
-        margin: 0 auto 5% auto !important;
-        padding: 10px 10px 40px 10px !important;
-        gap: 12px !important;        /* تقليص الفراغات بين الكروت */
+        position: absolute !important;
+        width: 82% !important;      /* مجموع ومحمي من الجوانب */
+        height: 22vh !important;     /* حد دقيق للسكرولر باش ما يقيسش التيتل الفوق */
+        max-height: 22vh !important;
+        bottom: 15% !important;      /* هزه فوق شوية باش يجي فـ السنتر الأبيض تماماً */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin: 0 !important;
+        padding: 15px 5px 35px 5px !important; /* مساحة تنفس سفلية لحماية الكارت الأخير */
+        gap: 10px !important;        /* مسافة ضيقة وأنيقة بين الكروت */
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        /* 🎬 قناع التلاشي السوفت والناعم (Soft Gradient Opacity) فـ السنتر */
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,      /* تذويب سريع وناعم علوياً لحماية النص */
+            black 82%,
+            transparent 100% /* تذويب سفلي احترافي عند حركة الكروت */
+        ) !important;
+        mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,
+            black 82%,
+            transparent 100%
+        ) !important;
     }
 
-    /* تصغير كروت المناطق (Netflix, Gaming...) باش يجيو أنيقين فالعرض الصغير */
+    /* 📱 تصغير حجم وشكل الكروت لـ تتناسب مع الأبعاد الجديدة */
     .zone-card {
-        padding: 8px 12px !important;
-        border-radius: 14px !important;
+        padding: 6px 10px !important; /* كروت رشيقة وصغيرة */
+        border-radius: 12px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        background: rgba(255, 255, 255, 0.08) !important; /* تخفيف الخلفية لمظهر ناعم */
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        transition: transform 0.2s ease-in-out !important;
     }
 
+    /* 🖼️ تصغير اللوغوهات (Pictures/Logos) */
     .zone-img-box {
-        width: 65px !important;      /* تصغير حجم لوغو نتفليكس/الألعاب شوية */
-        height: 48px !important;
+        width: 52px !important;      /* حجم ميكرو متناسق للوغو نيتفليكس/الألعاب */
+        height: 38px !important;
+        border-radius: 6px !important;
     }
 
+    /* 🔘 تصغير أزرار الاستكشاف الداخلية [Explore Now] */
     .explore-zone-btn {
-        padding: 8px 16px !important;/* تصغير الأزرار الداخلية [استكشف الآن] */
-        font-size: 0.8rem !important;
+        padding: 6px 12px !important; /* زر صغير ومثالي للمس بالتيلفون */
+        font-size: 0.7rem !important;  /* تصغير الخط */
+        border-radius: 20px !important;
+        gap: 4px !important;
     }
-
-
-
-
-
+}
