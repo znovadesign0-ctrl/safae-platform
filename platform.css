@@ -1075,22 +1075,10 @@ body {
 
 
     
-  /* ==========================================================================
-   🎯 الضبط المغناطيسي فـ السنتر الأبيض: كارت واحد فـ كل سكرول فالتيلفون
+/* ==========================================================================
+   🎯 الكود الميكرومتري المعدل: زر الـ Explore Now على اليسار وتحت الكتابة تماماً
    ========================================================================= */
 @media (max-width: 480px) {
-
-
-    .dashboard-explore-btn {
-    position: absolute !important;
-    bottom: 21.8% !important; /* باش يحافظ على نفس المكان المغناطيسي فالتيلفون */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 52% !important;
-    height: 38px !important;
-    font-size: 0.75rem !important; /* تصغير الخط باش يجي أنيق وسط الزر فالتيلفون */
-    border-radius: 15px !important;
-}
     
     /* 1️⃣ حجب كامل للواجهة الثانية فـ الأول لضمان النقاء */
     #mainDashboard {
@@ -1111,14 +1099,17 @@ body {
         aspect-ratio: 930 / 1080 !important;
         background-size: contain !important;
     }
+    
+    /* 📍 ضبط مكان الزر على اليسار وصغير جداً (تحت القلم الأخضر ديالك 100%) */
     .dashboard-explore-btn {
         position: absolute !important;
-        bottom: 21.8% !important; /* مكان دقيق ومطابق للديزاين الأصلي */
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 52% !important;
-        height: 38px !important;
-        font-size: 0.8rem !important;
+        bottom: 21.8% !important;    /* الارتفاع المثالي ليكون تحت السطر الأخير */
+        left: 10.5% !important;      /* محاذاة دقيقة على اليسار مع بداية النص */
+        transform: none !important;   /* إلغاء التمركز فـ السنتر تماماً */
+        width: 26% !important;       /* تصغير عرض الزر ليناسب عمود الكتابة فقط */
+        height: 4.8% !important;     /* طول ديناميكي متناسق مع حجم الفريم */
+        font-size: 0.6rem !important; /* تصغير الخط ليتناسب مع الحجم الميكرو الجديد */
+        border-radius: 12px !important;
     }
 
     /* 3️⃣ واجهة التصفح الثانية (Main Dashboard) */
@@ -1132,31 +1123,24 @@ body {
         justify-content: flex-end !important;
     }
 
-    /* 🚀 تضييق الـ Limits ديال الحاوية باش تهبط تحت الكتابة وتجيب كارت واحد فـ السنتر */
+    /* 🚀 حدود السكرولر المغناطيسي فـ السنتر الأبيض تماماً */
     .zones-scroll-wrapper {
         position: absolute !important;
         width: 84% !important;
-        
-        /* 📐 صغرنا الطول لـ 11.5vh باش يهز كارت واحد بـ الضبط وما يقيسش التيتل */
         height: 11.5vh !important;     
         max-height: 11.5vh !important;
-        
-        /* 📐 ضبط الموقع ليكون أسفل "to your special platform..." تماماً وفـ السنتر الأبيض */
         bottom: 5.5% !important;      
         left: 50% !important;
         transform: translateX(-50%) !important;
-        
         margin: 0 !important;
         padding: 4px 5px !important; 
-        gap: 20px !important; /* إبعاد الكروت الأخرى هيدن لتحت */
+        gap: 20px !important; 
         overflow-y: auto !important;
         overflow-x: hidden !important;
-
-        /* 🧲 تفعيل خاصية السكرول المغناطيسي العمودي */
         scroll-snap-type: y mandatory !important;
         scroll-behavior: smooth !important;
 
-        /* 🎬 الـ Soft Gradient Opacity الحاد لـ حجب كاع الكروت الأخرى تماماً */
+        /* 🎬 الـ Soft Gradient Opacity لحجب الكروت الأخرى */
         -webkit-mask-image: linear-gradient(
             to bottom,
             transparent 0%,
@@ -1173,28 +1157,26 @@ body {
         ) !important;
     }
 
-    /* 📱 ضبط الكارت الفردي لـ يأخذ المساحة بالكامل ويكون مغناطيسي */
+    /* 📱 ضبط الكروت الفردية المتجاوبة */
     .zone-card {
         width: 100% !important;
-        height: 100% !important; /* ملء الحاوية بالكامل */
+        height: 100% !important; 
         flex-shrink: 0 !important;
         padding: 6px 12px !important;
         border-radius: 14px !important;
         box-sizing: border-box !important;
-        
-        /* 🧲 جعل الكارت يثبت فـ السنتر عند السكرول */
         scroll-snap-align: center !important;
         scroll-snap-stop: always !important;
     }
 
-    /* 🖼️ لوغو المنصات لداخل (Netflix...) */
+    /* 🖼️ لوغو المنصات */
     .zone-img-box {
         width: 52px !important;
         height: 38px !important;
         border-radius: 6px !important;
     }
 
-    /* 🔘 أزرار [Explore Now / استكشف الآن] */
+    /* 🔘 أزرار [Explore Now] الداخلية */
     .explore-zone-btn {
         padding: 6px 14px !important;
         font-size: 0.7rem !important;
