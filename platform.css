@@ -1073,3 +1073,75 @@ body {
     transform: scale(1.03); /* Keeps the scaling animation from other rules */
 }
 
+
+    
+    /* ==========================================================================
+   🎯 إصلاح الـ Responsiveness الكامل للشاشات الصغيرة (التيلفونات)
+   ========================================================================= */
+@media (max-width: 480px) {
+    
+    /* 1️⃣ إصلاح واجهة الترحيب الأولى (Welcome Safae) */
+    .safae-card-wrapper {
+        height: auto !important; /* إلغاء الارتفاع الثابت الكبيير */
+        width: 92% !important;   /* حماية الجوانب وموازنة الكارت */
+        margin: auto !important;
+    }
+
+    .safae-card {
+        aspect-ratio: 930 / 1080 !important; /* الحفاظ على أبعاد الديزاين الإلستريشن */
+        background-size: contain !important;
+    }
+
+    .dashboard-explore-btn {
+        bottom: 6% !important;      /* رفع زر الاستكشاف لبلاصة آمنة ومريحة للضغط */
+        left: 50% !important;
+        transform: translateX(-50%) !important; /* موازنة الزر فـ الوسط 100% */
+        width: 60% !important;       /* تكبير العرض شوية باش يجي متناسق مع التيلفون */
+        height: 50px !important;     /* إعطاء طول ثابت ومريح للمس */
+        font-size: 0.95rem !important;
+    }
+
+    .dashboard-explore-btn:hover {
+        transform: translateX(-50%) scale(1.03) !important;
+    }
+
+    /* 2️⃣ إصلاح واجهة التصفح الرئيسية الثانية (Main Dashboard - الألعاب والمنصات) */
+    .dashboard-custom-frame {
+        height: auto !important;
+        width: 92% !important;
+        aspect-ratio: 930 / 1080 !important;
+        margin: auto !important;
+        padding: 15px !important;
+        justify-content: flex-end !important;
+    }
+
+    /* موازنة حاوية الكروت الـ Scroll داخل الفريم الجديد */
+    .zones-scroll-wrapper {
+        width: 90% !important;
+        height: 35vh !important;     /* إعطاء مساحة أكبر ومريحة للـ Scroll فالتيلفون */
+        max-height: 38vh !important;
+        margin: 0 auto 5% auto !important;
+        padding: 10px 10px 40px 10px !important;
+        gap: 12px !important;        /* تقليص الفراغات بين الكروت */
+    }
+
+    /* تصغير كروت المناطق (Netflix, Gaming...) باش يجيو أنيقين فالعرض الصغير */
+    .zone-card {
+        padding: 8px 12px !important;
+        border-radius: 14px !important;
+    }
+
+    .zone-img-box {
+        width: 65px !important;      /* تصغير حجم لوغو نتفليكس/الألعاب شوية */
+        height: 48px !important;
+    }
+
+    .explore-zone-btn {
+        padding: 8px 16px !important;/* تصغير الأزرار الداخلية [استكشف الآن] */
+        font-size: 0.8rem !important;
+    }
+
+
+
+
+
