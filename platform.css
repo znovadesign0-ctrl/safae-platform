@@ -1079,6 +1079,18 @@ body {
    🎯 الضبط المغناطيسي فـ السنتر الأبيض: كارت واحد فـ كل سكرول فالتيلفون
    ========================================================================= */
 @media (max-width: 480px) {
+
+
+    .dashboard-explore-btn {
+    position: absolute !important;
+    bottom: 21.8% !important; /* باش يحافظ على نفس المكان المغناطيسي فالتيلفون */
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 52% !important;
+    height: 38px !important;
+    font-size: 0.75rem !important; /* تصغير الخط باش يجي أنيق وسط الزر فالتيلفون */
+    border-radius: 15px !important;
+}
     
     /* 1️⃣ حجب كامل للواجهة الثانية فـ الأول لضمان النقاء */
     #mainDashboard {
